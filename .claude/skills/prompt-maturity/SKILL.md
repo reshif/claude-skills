@@ -98,4 +98,4 @@ A score you assigned yourself, in the same thread that did the clarifying, is no
 
 ## 8. Confirm, then execute
 
-Show the final scorecard (and, when step 7 ran, note that it passed independent verification), restate the clarified spec in 3-5 bullets, then do the work in the same turn — no separate confirmation step.
+Show the final scorecard (and, when step 7 ran, note that it passed independent verification), restate the clarified spec in detail for user acknowledgement.
