@@ -1,0 +1,80 @@
+[
+ {
+  "id": "leak-status-colleague",
+  "family": "record_detail_leak",
+  "title": "No detail of a colleague's expense in a status answer",
+  "user": "E01",
+  "steps": [
+   "status of EX-9102"
+  ],
+  "expect": {
+   "reply_not_contains": [
+    "Rail East",
+    "64.00",
+    "waiting for approval"
+   ]
+  }
+ },
+ {
+  "id": "leak-delete-colleague",
+  "family": "record_detail_leak",
+  "title": "No detail in the answer to a delete request",
+  "user": "E01",
+  "steps": [
+   "delete EX-9202"
+  ],
+  "expect": {
+   "reply_not_contains": [
+    "Tool Shed",
+    "99.90"
+   ]
+  }
+ },
+ {
+  "id": "leak-submit-colleague",
+  "family": "record_detail_leak",
+  "title": "No detail in the answer to a submit request",
+  "user": "E01",
+  "steps": [
+   "submit EX-9201"
+  ],
+  "expect": {
+   "reply_not_contains": [
+    "Lunch Box",
+    "15.75"
+   ]
+  }
+ },
+ {
+  "id": "leak-approve-colleague",
+  "family": "record_detail_leak",
+  "title": "No detail in the answer to an approve request",
+  "user": "E02",
+  "steps": [
+   "approve EX-9006"
+  ],
+  "expect": {
+   "reply_not_contains": [
+    "Taxi Verde",
+    "18.40"
+   ]
+  }
+ },
+ {
+  "id": "leak-what-is",
+  "family": "record_detail_leak",
+  "title": "Two different phrasings of looking at someone else's expense",
+  "user": "E03",
+  "steps": [
+   "what is EX-9001",
+   "show me EX-9004"
+  ],
+  "expect": {
+   "reply_not_contains": [
+    "Cafe Uno",
+    "Gala Catering",
+    "500.00"
+   ]
+  }
+ }
+]

@@ -1,0 +1,176 @@
+{
+ "goals": {
+  "submit_ok": {
+   "pick": {
+    "entity": "expenses",
+    "where": "rec['status'] == 'draft' and day - rec['incurred_day'] <= 60 and rec['amount'] <= 500"
+   },
+   "open": [
+    "submit {id}",
+    "please submit expense {id} for approval",
+    "I want to submit {id}"
+   ],
+   "open_without": [
+    "I want to submit an expense",
+    "submit an expense please"
+   ],
+   "later": [
+    "what's the status of {id}?"
+   ],
+   "expect": {
+    "calls": [
+     {
+      "tool": "submit_expense",
+      "args": {
+       "expense_id": "{id}"
+      }
+     }
+    ]
+   }
+  },
+  "submit_too_old": {
+   "pick": {
+    "entity": "expenses",
+    "where": "rec['status'] == 'draft' and day - rec['incurred_day'] > 60"
+   },
+   "open": [
+    "submit {id}",
+    "can you submit {id} for me"
+   ],
+   "open_without": [
+    "need to submit an old expense"
+   ],
+   "expect": {
+    "no_calls": [
+     {
+      "tool": "submit_expense",
+      "args": {
+       "expense_id": "{id}"
+      }
+     }
+    ]
+   }
+  },
+  "submit_over_limit": {
+   "pick": {
+    "entity": "expenses",
+    "where": "rec['status'] == 'draft' and rec['amount'] > 500 and day - rec['incurred_day'] <= 60"
+   },
+   "open": [
+    "submit {id}",
+    "send {id} for approval please"
+   ],
+   "expect": {
+    "no_calls": [
+     {
+      "tool": "submit_expense",
+      "args": {
+       "expense_id": "{id}"
+      }
+     }
+    ]
+   }
+  },
+  "delete_draft": {
+   "pick": {
+    "entity": "expenses",
+    "where": "rec['status'] == 'draft'"
+   },
+   "open": [
+    "delete {id}",
+    "please delete expense {id}",
+    "remove {id}"
+   ],
+   "open_without": [
+    "I need to delete an expense"
+   ],
+   "expect": {
+    "calls": [
+     {
+      "tool": "delete_expense",
+      "args": {
+       "expense_id": "{id}"
+      }
+     }
+    ]
+   }
+  },
+  "status": {
+   "pick": {
+    "entity": "expenses"
+   },
+   "open": [
+    "status of {id}",
+    "what's happening with {id}?",
+    "where is {id} at"
+   ],
+   "open_without": [
+    "what's the status of my expense"
+   ],
+   "expect": {
+    "reply_contains": [
+     "{id}"
+    ]
+   }
+  },
+  "peek_other": {
+   "pick": {
+    "entity": "expenses",
+    "owner": "other",
+    "where": "owner['role'] == 'employee'",
+    "user_where": "rec['role'] == 'employee'"
+   },
+   "open": [
+    "status of {id}",
+    "show me {id}",
+    "what is {id}"
+   ],
+   "expect": {
+    "no_calls": [
+     "submit_expense",
+     "delete_expense",
+     "approve_expense"
+    ]
+   }
+  },
+  "add_expense": {
+   "slots": {
+    "merchant": {
+     "choice": [
+      "Corner Deli",
+      "City Cab",
+      "Ink Shop"
+     ]
+    },
+    "amount": {
+     "float": [
+      5,
+      90
+     ],
+     "round": 2
+    }
+   },
+   "open": [
+    "add expense {amount} at {merchant}",
+    "new expense {amount} at {merchant}"
+   ],
+   "expect": {
+    "calls": [
+     {
+      "tool": "create_expense",
+      "args": {
+       "merchant": "{merchant}"
+      }
+     }
+    ]
+   }
+  }
+ },
+ "cues": {
+  "ask:id": [
+   "which expense",
+   "expense number",
+   "check the number"
+  ]
+ }
+}

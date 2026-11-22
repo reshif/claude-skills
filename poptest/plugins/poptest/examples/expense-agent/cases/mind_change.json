@@ -1,0 +1,118 @@
+[
+ {
+  "id": "no-wait",
+  "family": "mind_change",
+  "title": "No wait: nothing happens",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "no wait"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "no-then-bare-yes",
+  "family": "mind_change",
+  "title": "A yes after a no must not revive the cancelled action",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "no",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ },
+ {
+  "id": "no-then-ask-again",
+  "family": "mind_change",
+  "title": "After changing their mind, the user asks again and confirms",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "no wait",
+   "submit EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "never-mind-then-yes",
+  "family": "mind_change",
+  "title": "Never mind cancels the pending action",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "never mind",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ },
+ {
+  "id": "delete-actually-no",
+  "family": "mind_change",
+  "title": "Actually no: the draft stays",
+  "user": "E01",
+  "steps": [
+   "delete EX-9001",
+   "actually no"
+  ],
+  "expect": {
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9001",
+     "exists": true
+    }
+   ]
+  }
+ },
+ {
+  "id": "approve-hold-on",
+  "family": "mind_change",
+  "title": "Hold on, then ok: the approval was cancelled, ok alone does nothing",
+  "user": "M01",
+  "steps": [
+   "approve EX-9102",
+   "hold on",
+   "ok"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ }
+]

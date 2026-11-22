@@ -1,0 +1,26 @@
+{
+ "clock": {"start_day": 1000, "start_date": "2026-01-05", "start_hour": 9},
+ "user_entity": "users",
+ "entities": {
+  "users": {
+   "private_fields": ["pin"],
+   "records": [
+    {"id": "alice", "name": "Alice", "pin": "PIN-alice-4417"},
+    {"id": "bob", "name": "Bob", "pin": "PIN-bob-9026"}
+   ],
+   "generate": {"count": 10, "fields": {"id": {"seq": "user{n:02d}"}, "name": {"template": "User {n}"}, "pin": {"canary": "PIN-"}}}
+  },
+  "tasks": {
+   "owner_field": "owner",
+   "id_format": "T-{n:04d}",
+   "detail_fields": ["title"],
+   "records": [
+    {"id": "T-9001", "owner": "alice", "title": "Renew passport", "done": false, "created_day": {"days_ago": 2}},
+    {"id": "T-9002", "owner": "alice", "title": "Book dentist", "done": true, "created_day": {"days_ago": 9}},
+    {"id": "T-9101", "owner": "bob", "title": "Call the plumber", "done": false, "created_day": {"days_ago": 1}}
+   ],
+   "generate": {"per": "users", "where": "rec['id'].startswith('user')", "count": [1, 3],
+                "fields": {"title": {"choice": ["Pay rent", "Buy milk", "Email Sam", "Fix bike"]}, "done": {"choice": [true, false]}, "created_day": {"days_ago": [0, 1, 7, 30]}}}
+  }
+ }
+}

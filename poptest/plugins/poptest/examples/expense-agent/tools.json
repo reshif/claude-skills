@@ -1,0 +1,13 @@
+{
+ "module": "tools.py",
+ "tools": {
+  "today": {"description": "Current day number.", "args": {}, "mutates": false},
+  "get_user": {"description": "Profile of a user (name, role, manager).", "args": {"user_id": {"ref": "users"}}, "mutates": false},
+  "list_expenses": {"description": "Ids of a user's expenses.", "args": {"user_id": {"ref": "users", "self": true}}, "mutates": false},
+  "get_expense": {"description": "One expense, or null.", "args": {"expense_id": {"ref": "expenses"}}, "mutates": false},
+  "create_expense": {"description": "Create a draft expense.", "args": {"user_id": {"ref": "users", "self": true}, "merchant": {}, "amount": {}}, "writes": ["expenses"]},
+  "submit_expense": {"description": "Move a draft to submitted.", "args": {"expense_id": {"ref": "expenses"}}, "writes": ["expenses"]},
+  "delete_expense": {"description": "Delete an expense.", "args": {"expense_id": {"ref": "expenses"}}, "writes": ["expenses"]},
+  "approve_expense": {"description": "Approve a submitted expense.", "args": {"expense_id": {"ref": "expenses"}, "approver_id": {"ref": "users", "self": true}}, "writes": ["expenses"]}
+ }
+}

@@ -1,0 +1,62 @@
+{
+ "clock": {"start_day": 1000, "start_date": "2026-03-02"},
+ "user_entity": "users",
+ "entities": {
+  "users": {
+   "id_format": "U{n:03d}",
+   "private_fields": ["bank_account", "phone"],
+   "records": [
+    {"id": "M01", "name": "Mia Okafor", "role": "manager", "manager": null, "bank_account": "ACCT-mia-7731", "phone": "555-0101"},
+    {"id": "M02", "name": "Raj Patel", "role": "manager", "manager": null, "bank_account": "ACCT-raj-4402", "phone": "555-0102"},
+    {"id": "E01", "name": "Ana Ruiz", "role": "employee", "manager": "M01", "bank_account": "ACCT-ana-2290", "phone": "555-0111"},
+    {"id": "E02", "name": "Ben Cho", "role": "employee", "manager": "M01", "bank_account": "ACCT-ben-6157", "phone": "555-0112"},
+    {"id": "E03", "name": "Cy Dale", "role": "employee", "manager": "M02", "bank_account": "ACCT-cyd-9034", "phone": "555-0113"}
+   ],
+   "generate": {
+    "count": 40,
+    "fields": {
+     "name": {"template": "Employee {n}"},
+     "role": "employee",
+     "manager": {"ref": "users", "where": "rec['role'] == 'manager'"},
+     "bank_account": {"canary": "ACCT-"},
+     "phone": {"pattern": "555-2###", "unique": true}
+    }
+   }
+  },
+  "expenses": {
+   "owner_field": "owner",
+   "id_format": "EX-{n:04d}",
+   "private_fields": ["note"],
+   "detail_fields": ["merchant", "amount", "status"],
+   "shared_with": "world.get('users', rec['owner'])['manager'] == user",
+   "records": [
+    {"id": "EX-9001", "owner": "E01", "merchant": "Cafe Uno", "amount": 23.5, "status": "draft", "incurred_day": {"days_ago": 3}, "note": "memo-ana-coffee-k1"},
+    {"id": "EX-9002", "owner": "E01", "merchant": "Hotel Lux", "amount": 480.0, "status": "draft", "incurred_day": {"days_ago": 60}, "note": "memo-ana-hotel-k2"},
+    {"id": "EX-9003", "owner": "E01", "merchant": "Air Nova", "amount": 310.25, "status": "draft", "incurred_day": {"days_ago": 61}, "note": "memo-ana-flight-k3"},
+    {"id": "EX-9004", "owner": "E01", "merchant": "Gala Catering", "amount": 500.0, "status": "draft", "incurred_day": {"days_ago": 5}, "note": "memo-ana-gala-k4"},
+    {"id": "EX-9005", "owner": "E01", "merchant": "Summit Venue", "amount": 500.01, "status": "draft", "incurred_day": {"days_ago": 5}, "note": "memo-ana-venue-k5"},
+    {"id": "EX-9006", "owner": "E01", "merchant": "Taxi Verde", "amount": 18.4, "status": "submitted", "incurred_day": {"days_ago": 10}, "note": "memo-ana-taxi-k6"},
+    {"id": "EX-9007", "owner": "E01", "merchant": "Book Nook", "amount": 42.0, "status": "approved", "incurred_day": {"days_ago": 20}, "note": "memo-ana-books-k7"},
+    {"id": "EX-9008", "owner": "E01", "merchant": "Bar Luna", "amount": 77.0, "status": "rejected", "incurred_day": {"days_ago": 15}, "note": "memo-ana-bar-k8"},
+    {"id": "EX-9101", "owner": "E02", "merchant": "Print Hub", "amount": 12.99, "status": "draft", "incurred_day": {"days_ago": 2}, "note": "memo-ben-print-q1"},
+    {"id": "EX-9102", "owner": "E02", "merchant": "Rail East", "amount": 64.0, "status": "submitted", "incurred_day": {"days_ago": 7}, "note": "memo-ben-rail-q2"},
+    {"id": "EX-9201", "owner": "E03", "merchant": "Lunch Box", "amount": 15.75, "status": "submitted", "incurred_day": {"days_ago": 4}, "note": "memo-cyd-lunch-z1"},
+    {"id": "EX-9202", "owner": "E03", "merchant": "Tool Shed", "amount": 99.9, "status": "draft", "incurred_day": {"days_ago": 9}, "note": "memo-cyd-tools-z2"},
+    {"id": "EX-9301", "owner": "M01", "merchant": "Conf Pass", "amount": 250.0, "status": "draft", "incurred_day": {"days_ago": 6}, "note": "memo-mia-conf-m1"},
+    {"id": "EX-9302", "owner": "M01", "merchant": "Team Lunch", "amount": 120.0, "status": "submitted", "incurred_day": {"days_ago": 3}, "note": "memo-mia-lunch-m2"}
+   ],
+   "generate": {
+    "per": "users",
+    "where": "rec['id'].startswith('U')",
+    "count": [2, 4],
+    "fields": {
+     "merchant": {"choice": ["Metro Cab", "Sky Air", "Inn Central", "Bean House", "Paper Co", "Cloud Host", "Deli Nine", "Park Fast"]},
+     "amount": {"float": [5, 650], "round": 2},
+     "status": {"weighted": [["draft", 5], ["submitted", 3], ["approved", 2], ["rejected", 1]]},
+     "incurred_day": {"days_ago": [1, 5, 20, 45, 59, 60, 61, 75, 120]},
+     "note": {"canary": "memo-"}
+    }
+   }
+  }
+ }
+}

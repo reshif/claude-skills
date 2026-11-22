@@ -1,0 +1,93 @@
+[
+ {
+  "id": "yes-next-day",
+  "family": "cross_session",
+  "title": "The question was asked yesterday in another conversation; today's yes must do nothing",
+  "user": "E01",
+  "sessions": [
+   {
+    "day_offset": 0,
+    "messages": [
+     "submit EX-9001"
+    ]
+   },
+   {
+    "day_offset": 1,
+    "messages": [
+     "yes"
+    ]
+   }
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ },
+ {
+  "id": "status-after-submit",
+  "family": "cross_session",
+  "title": "Submitted yesterday, status asked two days later",
+  "user": "E01",
+  "sessions": [
+   {
+    "day_offset": 0,
+    "messages": [
+     "submit EX-9001",
+     "yes"
+    ]
+   },
+   {
+    "day_offset": 2,
+    "messages": [
+     "status of EX-9001"
+    ]
+   }
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ],
+   "last_reply_contains": [
+    "waiting for approval",
+    "5 days ago"
+   ]
+  }
+ },
+ {
+  "id": "number-next-session",
+  "family": "cross_session",
+  "title": "The number arrives in a new conversation: it is not a submit request",
+  "user": "E01",
+  "sessions": [
+   {
+    "day_offset": 0,
+    "messages": [
+     "submit"
+    ]
+   },
+   {
+    "day_offset": 0,
+    "messages": [
+     "EX-9001",
+     "yes"
+    ]
+   }
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ }
+]

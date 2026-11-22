@@ -1,0 +1,20 @@
+[
+ {"id": "delete-after-yes", "family": "happy_path", "title": "A task is deleted after a yes",
+  "user": "alice", "steps": ["delete T-9001", "yes"],
+  "expect": {"calls": [{"tool": "delete_task", "args": {"task_id": "T-9001"}, "count": 1}],
+             "world": [{"entity": "tasks", "id": "T-9001", "exists": false}]}},
+ {"id": "delete-please-dont", "family": "negated_phrasing", "title": "\"No, please don't\" is a no",
+  "user": "alice", "steps": ["delete T-9001", "no, please don't"],
+  "expect": {"no_calls": ["delete_task"], "unchanged": ["tasks"]}},
+ {"id": "delete-someone-elses", "family": "cross_user", "title": "Another user's task cannot be deleted or read",
+  "user": "alice", "steps": ["delete T-9101", "yes"],
+  "expect": {"world": [{"entity": "tasks", "id": "T-9101", "exists": true}], "reply_not_contains": ["plumber"]}},
+ {"id": "yes-in-other-window", "family": "concurrent_sessions", "title": "A yes typed in a second window does nothing",
+  "user": "alice",
+  "steps": [{"session": "a", "say": "delete T-9001"}, {"session": "b", "say": "yes"}],
+  "expect": {"no_calls": ["delete_task"]}},
+ {"id": "yes-next-day", "family": "clock", "title": "A yes one day later, in the same window, still counts once",
+  "user": "alice",
+  "steps": ["delete T-9001", {"advance": {"days": 1}}, "yes", "yes"],
+  "expect": {"calls": [{"tool": "delete_task", "args": {"task_id": "T-9001"}, "count": 1}]}}
+]

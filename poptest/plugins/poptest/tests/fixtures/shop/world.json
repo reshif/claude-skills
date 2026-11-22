@@ -1,0 +1,20 @@
+{
+ "clock": {"start_day": 100, "start_date": "2026-03-02", "start_hour": 9},
+ "user_entity": "users",
+ "entities": {
+  "users": {"private_fields": ["account"], "private_masks": {"account": ["'****' + v[-4:]"]},
+            "records": [{"id": "U1", "name": "Uma", "role": "member", "account": "5500112233441111"},
+                        {"id": "U2", "name": "Ugo", "role": "member", "account": "5500998877662222"},
+                        {"id": "S1", "name": "Sam", "role": "staff", "account": "5500555566663333"}]},
+  "tickets": {"owner_field": "owner", "id_format": "T-{n}", "detail_fields": ["title"],
+              "records": [{"id": "T-1", "owner": "U1", "title": "Printer on fire", "status": "open"},
+                          {"id": "T-2", "owner": "U1", "title": "Screen cracked", "status": "closed"},
+                          {"id": "T-7", "owner": "U2", "title": "Laptop stolen", "status": "open"}]},
+  "stock": {"detail_fields": ["qty"],
+            "shared_with": "not rec['restricted'] or world.get('users', user)['role'] == 'staff'",
+            "records": [{"id": "SKU-100", "name": "Widget", "qty": 40, "restricted": false},
+                        {"id": "SKU-200", "name": "Gadget", "qty": 733, "restricted": true}]},
+  "payments": {"owner_field": "owner", "id_format": "P-{n:04d}", "records": [
+                 {"id": "P-1001", "owner": "U1", "amount_minor": 500, "sku": "SKU-100"}]}
+ }
+}

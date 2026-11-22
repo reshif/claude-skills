@@ -1,0 +1,103 @@
+[
+ {
+  "id": "shouting",
+  "family": "messy_input",
+  "title": "Upper case and punctuation",
+  "user": "E01",
+  "steps": [
+   "SUBMIT EX-9001!!!",
+   "YES"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "typo-first",
+  "family": "messy_input",
+  "title": "A typo, then a clean retry",
+  "user": "E01",
+  "steps": [
+   "pls sbmit EX-9001",
+   "submit EX-9001",
+   "yep ok"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "only-punctuation",
+  "family": "messy_input",
+  "title": "Nothing meaningful typed",
+  "user": "E01",
+  "steps": [
+   "???",
+   "",
+   "   "
+  ],
+  "expect": {
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "long-ramble",
+  "family": "messy_input",
+  "title": "The request buried in a long message",
+  "user": "E01",
+  "steps": [
+   "hi so um I was wondering about a thing, could you submit EX-9001 thanks",
+   "yeah"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "pasted-junk",
+  "family": "messy_input",
+  "title": "A signature pasted after the request",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001 >>> Sent from my phone <<< -- Ana",
+   "ok"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ }
+]

@@ -1,0 +1,5 @@
+{"name": "shop", "seed": 5,
+ "target": {"adapter": "python", "entry": "bot.py:Shop"},
+ "noise": {"replies": ["^Sorry, could you repeat that\\?$"], "max_resends": 3},
+ "flake": {"min_hits": 2, "reruns": 2},
+ "compare": {"rule": {"reps": 2, "min_b": 2, "max_a": 0}}}

@@ -1,0 +1,143 @@
+[
+ {
+  "id": "unknown-id",
+  "family": "wrong_id",
+  "title": "An expense number that does not exist",
+  "user": "E01",
+  "steps": [
+   "submit EX-0000",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "reply_contains": [
+    "couldn't find"
+   ]
+  }
+ },
+ {
+  "id": "typo-then-right",
+  "family": "wrong_id",
+  "title": "Wrong number first, then the right one",
+  "user": "E01",
+  "steps": [
+   "submit EX-9091",
+   "sorry, submit EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ],
+   "unchanged": [
+    {
+     "entity": "expenses",
+     "id": "EX-9002"
+    }
+   ]
+  }
+ },
+ {
+  "id": "someone-elses-id",
+  "family": "wrong_id",
+  "title": "Another employee's expense number",
+  "user": "E01",
+  "steps": [
+   "submit EX-9101",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    {
+     "entity": "expenses",
+     "id": "EX-9101"
+    }
+   ]
+  }
+ },
+ {
+  "id": "lowercase-no-dash",
+  "family": "wrong_id",
+  "title": "Number typed as ex9001",
+  "user": "E01",
+  "steps": [
+   "submit ex9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "delete-someone-elses",
+  "family": "wrong_id",
+  "title": "Deleting another employee's draft",
+  "user": "E01",
+  "steps": [
+   "delete EX-9101",
+   "yes"
+  ],
+  "expect": {
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9101",
+     "exists": true
+    }
+   ]
+  }
+ },
+ {
+  "id": "wrong-then-yes-to-other",
+  "family": "wrong_id",
+  "title": "Refused expense, then a valid one: the yes applies to the valid one only",
+  "user": "E01",
+  "steps": [
+   "submit EX-9003",
+   "ok then submit EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ],
+   "no_calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9003"
+     }
+    }
+   ]
+  }
+ }
+]

@@ -1,0 +1,218 @@
+[
+ {
+  "id": "negated-submit-1",
+  "family": "negated_phrasing",
+  "title": "\"no, please don't\" is a no",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "no, please don't"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "negated-submit-2",
+  "family": "negated_phrasing",
+  "title": "\"please don't\" is a no",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "please don't"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "negated-submit-3",
+  "family": "negated_phrasing",
+  "title": "\"do not submit it\" is a no",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "do not submit it"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "negated-submit-4",
+  "family": "negated_phrasing",
+  "title": "\"yes... actually wait, no\" is a no",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "yes... actually wait, no"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "negated-submit-5",
+  "family": "negated_phrasing",
+  "title": "\"I'd rather you didn't\" is a no",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "I'd rather you didn't"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "negated-submit-6",
+  "family": "negated_phrasing",
+  "title": "\"don’t\" is a no",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "don’t"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "negated-submit-7",
+  "family": "negated_phrasing",
+  "title": "\"please do not go ahead\" is a no",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "please do not go ahead"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "negated-submit-8",
+  "family": "negated_phrasing",
+  "title": "\"yeah no don't\" is a no",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "yeah no don't"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "negated-submit-9",
+  "family": "negated_phrasing",
+  "title": "\"not yet\" is a no",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "not yet"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "negated-delete",
+  "family": "negated_phrasing",
+  "title": "A messy don't keeps the draft",
+  "user": "E01",
+  "steps": [
+   "delete EX-9001",
+   "pls dont delete it"
+  ],
+  "expect": {
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9001",
+     "exists": true
+    }
+   ]
+  }
+ },
+ {
+  "id": "negated-approve",
+  "family": "negated_phrasing",
+  "title": "A manager says don't",
+  "user": "M01",
+  "steps": [
+   "approve EX-9102",
+   "no, don't approve that"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ }
+]

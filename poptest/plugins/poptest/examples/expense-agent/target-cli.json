@@ -1,0 +1,5 @@
+{
+ "adapter": "cli",
+ "command": ["python3", "target/cli_bot.py"],
+ "protocol": "jsonl"
+}

@@ -1,0 +1,132 @@
+[
+ {
+  "id": "employee-approves",
+  "family": "permissions",
+  "title": "An employee tries to approve",
+  "user": "E01",
+  "steps": [
+   "approve EX-9102",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "unchanged": [
+    {
+     "entity": "expenses",
+     "id": "EX-9102"
+    }
+   ]
+  }
+ },
+ {
+  "id": "manager-approves-own",
+  "family": "permissions",
+  "title": "A manager tries to approve their own expense",
+  "user": "M01",
+  "steps": [
+   "approve EX-9302",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ },
+ {
+  "id": "manager-approves-other-team",
+  "family": "permissions",
+  "title": "A manager tries to approve another team's expense",
+  "user": "M01",
+  "steps": [
+   "approve EX-9201",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ],
+   "reply_not_contains": [
+    "Lunch Box"
+   ]
+  }
+ },
+ {
+  "id": "manager-approves-draft",
+  "family": "permissions",
+  "title": "A draft cannot be approved",
+  "user": "M01",
+  "steps": [
+   "approve EX-9101",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ },
+ {
+  "id": "manager-submits-for-report",
+  "family": "permissions",
+  "title": "A manager cannot submit on a report's behalf",
+  "user": "M01",
+  "steps": [
+   "submit EX-9101",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ },
+ {
+  "id": "manager-deletes-reports-draft",
+  "family": "permissions",
+  "title": "A manager cannot delete a report's draft",
+  "user": "M01",
+  "steps": [
+   "delete EX-9101",
+   "yes"
+  ],
+  "expect": {
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9101",
+     "exists": true
+    }
+   ]
+  }
+ },
+ {
+  "id": "employee-approves-own",
+  "family": "permissions",
+  "title": "An employee tries to approve their own submitted expense",
+  "user": "E01",
+  "steps": [
+   "approve EX-9006",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ }
+]

@@ -1,0 +1,237 @@
+[
+ {
+  "id": "window-60-allowed",
+  "family": "boundary",
+  "title": "Exactly 60 days old: still allowed",
+  "user": "E01",
+  "steps": [
+   "submit EX-9002",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9002"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "window-61-refused",
+  "family": "boundary",
+  "title": "61 days old: refused, even if the user says yes",
+  "user": "E01",
+  "steps": [
+   "submit EX-9003",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9003"
+     }
+    }
+   ],
+   "unchanged": [
+    {
+     "entity": "expenses",
+     "id": "EX-9003"
+    }
+   ]
+  }
+ },
+ {
+  "id": "window-59-allowed",
+  "family": "boundary",
+  "title": "59 days old: allowed",
+  "user": "E01",
+  "setup": [
+   {
+    "entity": "expenses",
+    "id": "EX-9001",
+    "set": {
+     "incurred_day": {
+      "days_ago": 59
+     }
+    }
+   }
+  ],
+  "steps": [
+   "submit EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "limit-500-allowed",
+  "family": "boundary",
+  "title": "Exactly 500.00: allowed",
+  "user": "E01",
+  "steps": [
+   "submit EX-9004",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9004"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "limit-500-01-refused",
+  "family": "boundary",
+  "title": "500.01: refused",
+  "user": "E01",
+  "steps": [
+   "submit EX-9005",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9005"
+     }
+    }
+   ],
+   "unchanged": [
+    {
+     "entity": "expenses",
+     "id": "EX-9005"
+    }
+   ]
+  }
+ },
+ {
+  "id": "add-zero-amount",
+  "family": "boundary",
+  "title": "A zero amount is not added",
+  "user": "E01",
+  "steps": [
+   "add expense 0 at Nowhere"
+  ],
+  "expect": {
+   "no_calls": [
+    "create_expense"
+   ]
+  }
+ },
+ {
+  "id": "status-one-day",
+  "family": "boundary",
+  "title": "Age wording at one day",
+  "user": "E01",
+  "setup": [
+   {
+    "entity": "expenses",
+    "id": "EX-9001",
+    "set": {
+     "incurred_day": {
+      "days_ago": 1
+     }
+    }
+   }
+  ],
+  "steps": [
+   "status of EX-9001"
+  ],
+  "expect": {
+   "reply_contains": [
+    "1 day ago"
+   ]
+  }
+ },
+ {
+  "id": "total-nothing-pending",
+  "family": "boundary",
+  "title": "Total when nothing is submitted",
+  "user": "E01",
+  "setup": [
+   {
+    "entity": "expenses",
+    "id": "EX-9006",
+    "set": {
+     "status": "approved"
+    }
+   }
+  ],
+  "steps": [
+   "how much is pending"
+  ],
+  "expect": {
+   "reply_contains": [
+    "$0.00"
+   ]
+  }
+ },
+ {
+  "id": "submit-already-submitted",
+  "family": "boundary",
+  "title": "An already submitted expense is not submitted again",
+  "user": "E01",
+  "steps": [
+   "submit EX-9006",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9006"
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "delete-approved-refused",
+  "family": "boundary",
+  "title": "Only drafts can be deleted",
+  "user": "E01",
+  "steps": [
+   "delete EX-9007",
+   "yes"
+  ],
+  "expect": {
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9007",
+     "exists": true
+    }
+   ],
+   "no_calls": [
+    {
+     "tool": "delete_expense",
+     "args": {
+      "expense_id": "EX-9007"
+     }
+    }
+   ]
+  }
+ }
+]

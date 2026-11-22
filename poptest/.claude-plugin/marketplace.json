@@ -1,0 +1,14 @@
+{
+  "name": "poptest-marketplace",
+  "owner": {
+    "name": "Firdous"
+  },
+  "plugins": [
+    {
+      "name": "poptest",
+      "source": "./plugins/poptest",
+      "description": "Test AI agents, chatbots, workflows and APIs that take actions over time: a fake world you control, a driver that talks to the real system, code checks against the true state, replay and shrinking of failures, release comparison and mutation testing of the tests themselves.",
+      "version": "1.1.0"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+ "module": "tools.py",
+ "tools": {
+  "list_tasks": {"description": "Ids of a user's tasks.", "args": {"user_id": {"ref": "users", "self": true}}, "mutates": false},
+  "get_task": {"description": "One task, or null.", "args": {"task_id": {"ref": "tasks"}}, "mutates": false},
+  "add_task": {"description": "Create a task.", "args": {"user_id": {"ref": "users", "self": true}, "title": {}}, "writes": ["tasks"]},
+  "complete_task": {"description": "Mark a task done.", "args": {"task_id": {"ref": "tasks"}}, "writes": ["tasks"]},
+  "delete_task": {"description": "Delete a task.", "args": {"task_id": {"ref": "tasks"}}, "writes": ["tasks"]}
+ }
+}

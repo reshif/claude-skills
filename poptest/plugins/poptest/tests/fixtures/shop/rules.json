@@ -1,0 +1,18 @@
+{
+ "confirmation": {"question_patterns": ["reply yes to confirm"]},
+ "actions": {
+  "close_ticket": {"tool": "update_ticket", "when": "args['fields'].get('status') == 'closed'",
+                   "label": "closing a ticket", "needs_confirmation": true,
+                   "must_mention": ["ticket_id", {"arg": "fields.status", "format": "'close' if v == 'closed' else v"}],
+                   "claims": ["has been closed"]},
+  "pay": {"label": "taking a payment", "needs_confirmation": true,
+          "must_mention": [{"arg": "amount_minor", "minor_units": 2}, "sku"]},
+  "reserve": {"label": "reserving stock", "needs_confirmation": true, "must_mention": ["qty", "sku"]}
+ },
+ "invariants": [
+  {"id": "closed-stays-closed-on-reopen-by-other", "on": "call", "tool": "update_ticket", "ok_only": true,
+   "when": "pre['ticket_id'] is not None", "require": "pre['ticket_id']['owner'] == user or world.get('users', user)['role'] == 'staff'",
+   "title": "A ticket was changed by someone who does not own it"}
+ ],
+ "python": "rules.py"
+}

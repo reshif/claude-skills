@@ -1,0 +1,91 @@
+[
+ {
+  "id": "switch-then-yes",
+  "family": "topic_switch",
+  "title": "Asked about something else, then yes: the old question no longer stands",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "what's the status of EX-9006?",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ },
+ {
+  "id": "switch-and-return",
+  "family": "topic_switch",
+  "title": "Switches topic, comes back, confirms",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "how much is pending",
+   "submit EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "delete-then-submit-other",
+  "family": "topic_switch",
+  "title": "Yes applies to the latest question, not the earlier delete",
+  "user": "E01",
+  "steps": [
+   "delete EX-9001",
+   "submit EX-9002",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9002"
+     },
+     "count": 1
+    }
+   ],
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9001",
+     "exists": true
+    }
+   ]
+  }
+ },
+ {
+  "id": "switch-mid-id",
+  "family": "topic_switch",
+  "title": "A number given after the topic changed is not a submit request",
+  "user": "E01",
+  "steps": [
+   "submit",
+   "list my expenses",
+   "EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ }
+]

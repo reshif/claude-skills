@@ -1,0 +1,12 @@
+{
+ "name": "expenso",
+ "seed": 7,
+ "target": {"adapter": "python", "entry": "target/agent.py:ExpenseAgent"},
+ "world": "world.json",
+ "tools": "tools.json",
+ "rules": "rules.json",
+ "cases": "cases",
+ "vocab": "vocab.json",
+ "population": "population.json",
+ "compare": {"rule": {"reps": 3, "min_b": 2, "max_a": 0}}
+}

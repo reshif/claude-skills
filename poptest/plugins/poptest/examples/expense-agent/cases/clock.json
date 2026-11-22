@@ -1,0 +1,117 @@
+[
+ {
+  "id": "window-closes-before-yes",
+  "family": "clock",
+  "title": "Asked on day 60, confirmed on day 61: must be checked again",
+  "user": "E01",
+  "steps": [
+   "submit EX-9002",
+   {
+    "advance": {
+     "days": 1
+    }
+   },
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9002"
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "wait-57-days",
+  "family": "clock",
+  "title": "A 3-day-old expense, 57 days later: day 60, allowed",
+  "user": "E01",
+  "steps": [
+   {
+    "advance": {
+     "days": 57
+    }
+   },
+   "submit EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "wait-58-days",
+  "family": "clock",
+  "title": "A 3-day-old expense, 58 days later: day 61, refused",
+  "user": "E01",
+  "steps": [
+   {
+    "advance": {
+     "days": 58
+    }
+   },
+   "submit EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "no_calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "age-after-jump",
+  "family": "clock",
+  "title": "The stated age follows the clock",
+  "user": "E01",
+  "steps": [
+   {
+    "advance": {
+     "days": 10
+    }
+   },
+   "status of EX-9001"
+  ],
+  "expect": {
+   "reply_contains": [
+    "13 days ago"
+   ]
+  }
+ },
+ {
+  "id": "added-then-aged",
+  "family": "clock",
+  "title": "An expense added today, looked at 61 days later",
+  "user": "E01",
+  "steps": [
+   "add expense 40 at Old Diner",
+   {
+    "advance": {
+     "days": 61
+    }
+   },
+   "list my expenses"
+  ],
+  "expect": {
+   "calls": [
+    "create_expense"
+   ]
+  }
+ }
+]

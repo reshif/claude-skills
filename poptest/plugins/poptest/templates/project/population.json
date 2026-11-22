@@ -1,0 +1,53 @@
+{
+ "goals": {
+  "delete_task": {
+   "pick": {
+    "entity": "tasks"
+   },
+   "open": [
+    "delete {id}",
+    "please delete task {id}"
+   ],
+   "open_without": [
+    "I want to delete a task"
+   ],
+   "expect": {
+    "calls": [
+     {
+      "tool": "delete_task",
+      "args": {
+       "task_id": "{id}"
+      }
+     }
+    ]
+   },
+   "answers": {
+    "id": [
+     "delete {id}",
+     "it's {id}, delete it"
+    ]
+   }
+  },
+  "peek_other": {
+   "pick": {
+    "entity": "tasks",
+    "owner": "other"
+   },
+   "open": [
+    "delete {id}",
+    "done {id}"
+   ],
+   "expect": {
+    "no_calls": [
+     "delete_task",
+     "complete_task"
+    ]
+   }
+  }
+ },
+ "cues": {
+  "ask:id": [
+   "which task"
+  ]
+ }
+}

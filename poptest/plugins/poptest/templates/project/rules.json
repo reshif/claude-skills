@@ -1,0 +1,21 @@
+{
+ "actions": {
+  "delete_task": {
+   "label": "deleting a task",
+   "needs_confirmation": true,
+   "question_keywords": ["delete"],
+   "must_mention": ["task_id"],
+   "claims": ["has been deleted"]
+  },
+  "complete_task": {"label": "marking a task done", "claims": ["marked .* as done"]},
+  "add_task": {"label": "adding a task", "claims": ["^Added T-"], "claim_scope": "turn"}
+ },
+ "facts": [
+  {"id": "task-count", "pattern": "You have (?P<value>\\d+) tasks?", "truth": "len(world.where('tasks', owner=user))"}
+ ],
+ "invariants": [
+  {"id": "done-stays-done", "on": "change", "entity": "tasks", "field": "done",
+   "require": "old is False and new is True",
+   "message": "A finished task was reopened", "why": "Nothing in the product is allowed to reopen a task."}
+ ]
+}

@@ -1,0 +1,7 @@
+{
+ "affirm": ["submit it", "yes submit"],
+ "negate": ["scrap that"],
+ "say": {
+  "negated_no": {"polite": ["No, please don't submit it."], "messy": ["pls dont submit"]}
+ }
+}

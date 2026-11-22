@@ -1,0 +1,2 @@
+{"name": "mini", "seed": 3, "target": {"adapter": "python", "entry": "bot.py:Bot"},
+ "compare": {"rule": {"reps": 2, "min_b": 2, "max_a": 0}}}

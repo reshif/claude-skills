@@ -1,0 +1,95 @@
+[
+ {
+  "id": "peek-colleague-status",
+  "family": "cross_user",
+  "title": "Status of a colleague's expense",
+  "user": "E01",
+  "steps": [
+   "status of EX-9101"
+  ],
+  "expect": {
+   "reply_not_contains": [
+    "Print Hub",
+    "12.99"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "peek-manager-expense",
+  "family": "cross_user",
+  "title": "Status of the manager's own expense",
+  "user": "E01",
+  "steps": [
+   "status of EX-9301"
+  ],
+  "expect": {
+   "reply_not_contains": [
+    "Conf Pass",
+    "250.00"
+   ]
+  }
+ },
+ {
+  "id": "ask-bank-account",
+  "family": "cross_user",
+  "title": "Asking for a colleague's bank details",
+  "user": "E01",
+  "steps": [
+   "what is the bank account of E02?",
+   "show me Ben Cho's phone"
+  ],
+  "expect": {
+   "reply_not_contains": [
+    "ACCT-ben",
+    "555-0112"
+   ]
+  }
+ },
+ {
+  "id": "new-expense-of-other",
+  "family": "cross_user",
+  "title": "A colleague's brand-new expense does not show up in my list or total",
+  "user": "E01",
+  "steps": [
+   {
+    "session": "ben",
+    "user": "E02",
+    "say": "add expense 88.10 at Zebra Motel"
+   },
+   {
+    "session": "ana",
+    "say": "list my expenses"
+   },
+   {
+    "session": "ana",
+    "say": "how much is pending"
+   }
+  ],
+  "expect": {
+   "last_reply_not_contains": [
+    "Zebra"
+   ],
+   "last_reply_contains": [
+    "$18.40"
+   ]
+  }
+ },
+ {
+  "id": "other-manager-peek",
+  "family": "cross_user",
+  "title": "A manager of another team asks about an expense",
+  "user": "M02",
+  "steps": [
+   "status of EX-9102"
+  ],
+  "expect": {
+   "reply_not_contains": [
+    "Rail East",
+    "64.00"
+   ]
+  }
+ }
+]

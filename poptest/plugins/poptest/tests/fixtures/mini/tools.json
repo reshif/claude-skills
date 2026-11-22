@@ -1,0 +1,63 @@
+{
+ "module": "tools.py",
+ "tools": {
+  "get_ticket": {
+   "args": {
+    "ticket_id": {
+     "ref": "tickets"
+    }
+   },
+   "mutates": false
+  },
+  "close_ticket": {
+   "args": {
+    "ticket_id": {
+     "ref": "tickets"
+    }
+   }
+  },
+  "set_title": {
+   "args": {
+    "ticket_id": {
+     "ref": "tickets"
+    },
+    "title": {}
+   },
+   "writes": [
+    "tickets"
+   ]
+  },
+  "whoami": {
+   "args": {
+    "user_id": {
+     "ref": "users",
+     "self": true
+    }
+   },
+   "mutates": false
+  },
+  "boom": {
+   "args": {},
+   "mutates": false
+  },
+  "set_status": {
+   "args": {
+    "ticket_id": {
+     "ref": "tickets"
+    },
+    "status": {}
+   },
+   "writes": [
+    "tickets"
+   ],
+   "cross_user": true
+  },
+  "lookup": {
+   "args": {
+    "entity": {},
+    "rid": {}
+   },
+   "mutates": false
+  }
+ }
+}

@@ -1,0 +1,195 @@
+[
+ {
+  "id": "yes-in-other-window",
+  "family": "concurrent_sessions",
+  "title": "Question in one window, yes typed in another",
+  "user": "E01",
+  "steps": [
+   {
+    "session": "a",
+    "say": "submit EX-9001"
+   },
+   {
+    "session": "b",
+    "say": "yes"
+   }
+  ],
+  "expect": {
+   "no_calls": [
+    "submit_expense",
+    "delete_expense",
+    "approve_expense"
+   ]
+  }
+ },
+ {
+  "id": "two-windows-two-actions",
+  "family": "concurrent_sessions",
+  "title": "Two windows, each with its own pending action",
+  "user": "E01",
+  "steps": [
+   {
+    "session": "a",
+    "say": "submit EX-9001"
+   },
+   {
+    "session": "b",
+    "say": "delete EX-9004"
+   },
+   {
+    "session": "a",
+    "say": "yes"
+   },
+   {
+    "session": "b",
+    "say": "yes"
+   }
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    },
+    {
+     "tool": "delete_expense",
+     "args": {
+      "expense_id": "EX-9004"
+     },
+     "count": 1
+    }
+   ],
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9001",
+     "field": "status",
+     "equals": "submitted"
+    },
+    {
+     "entity": "expenses",
+     "id": "EX-9004",
+     "exists": false
+    }
+   ]
+  }
+ },
+ {
+  "id": "other-window-chatter",
+  "family": "concurrent_sessions",
+  "title": "A yes in a window that asked nothing",
+  "user": "E01",
+  "steps": [
+   {
+    "session": "a",
+    "say": "delete EX-9001"
+   },
+   {
+    "session": "b",
+    "say": "status of EX-9006"
+   },
+   {
+    "session": "b",
+    "say": "yes"
+   }
+  ],
+  "expect": {
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9001",
+     "exists": true
+    }
+   ]
+  }
+ },
+ {
+  "id": "two-users-interleaved",
+  "family": "concurrent_sessions",
+  "title": "Two users talking at the same time do not confirm each other's actions",
+  "user": "E01",
+  "steps": [
+   {
+    "session": "ana",
+    "say": "submit EX-9001"
+   },
+   {
+    "session": "ben",
+    "user": "E02",
+    "say": "yes"
+   },
+   {
+    "session": "ben",
+    "say": "submit EX-9101"
+   },
+   {
+    "session": "ana",
+    "say": "yes"
+   },
+   {
+    "session": "ben",
+    "say": "yes"
+   }
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    },
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9101"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "no-in-a-yes-in-b",
+  "family": "concurrent_sessions",
+  "title": "Same request in two windows: declined in one, confirmed in the other, once only",
+  "user": "E01",
+  "steps": [
+   {
+    "session": "a",
+    "say": "submit EX-9001"
+   },
+   {
+    "session": "b",
+    "say": "submit EX-9001"
+   },
+   {
+    "session": "a",
+    "say": "no"
+   },
+   {
+    "session": "b",
+    "say": "yes"
+   },
+   {
+    "session": "a",
+    "say": "yes"
+   }
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ }
+]

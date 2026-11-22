@@ -1,0 +1,11 @@
+{"module": "tools.py",
+ "tools": {
+  "get_ticket": {"args": {"ticket_id": {"ref": "tickets"}}, "mutates": false},
+  "update_ticket": {"args": {"ticket_id": {"ref": "tickets"}, "fields": {}}, "writes": ["tickets"]},
+  "pay": {"args": {"user_id": {"ref": "users", "self": true}, "amount_minor": {}, "sku": {}}, "writes": ["payments"]},
+  "reserve": {"args": {"sku": {"ref": "stock"}, "qty": {}}, "writes": ["stock"]},
+  "get_stock": {"args": {"sku": {"ref": "stock"}}, "mutates": false},
+  "now": {"args": {}, "mutates": false},
+  "verify": {"args": {"code": {}}, "mutates": false, "ok_from_result": false},
+  "get_user": {"args": {"user_id": {}}, "mutates": false}
+ }}

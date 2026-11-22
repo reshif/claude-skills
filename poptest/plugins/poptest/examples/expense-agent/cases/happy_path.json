@@ -1,0 +1,180 @@
+[
+ {
+  "id": "happy-submit",
+  "family": "happy_path",
+  "title": "A valid draft is submitted after a yes",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ],
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9001",
+     "field": "status",
+     "equals": "submitted"
+    }
+   ],
+   "last_reply_contains": [
+    "has been submitted"
+   ]
+  }
+ },
+ {
+  "id": "happy-delete",
+  "family": "happy_path",
+  "title": "A draft is deleted after a yes",
+  "user": "E01",
+  "steps": [
+   "delete EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "delete_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ],
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9001",
+     "exists": false
+    }
+   ]
+  }
+ },
+ {
+  "id": "happy-add",
+  "family": "happy_path",
+  "title": "A new expense is added as a draft",
+  "user": "E01",
+  "steps": [
+   "add expense 23.50 at Cafe Duo"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "create_expense",
+     "args": {
+      "merchant": "Cafe Duo",
+      "amount": 23.5
+     },
+     "count": 1
+    }
+   ],
+   "reply_matches": [
+    "Added EX-\\d{4}"
+   ]
+  }
+ },
+ {
+  "id": "happy-status",
+  "family": "happy_path",
+  "title": "Status of an own expense",
+  "user": "E01",
+  "steps": [
+   "status of EX-9006"
+  ],
+  "expect": {
+   "reply_contains": [
+    "EX-9006",
+    "waiting for approval",
+    "10 days ago"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "happy-total",
+  "family": "happy_path",
+  "title": "Total of submitted expenses",
+  "user": "E01",
+  "steps": [
+   "how much is pending?"
+  ],
+  "expect": {
+   "reply_contains": [
+    "$18.40"
+   ],
+   "unchanged": [
+    "expenses"
+   ]
+  }
+ },
+ {
+  "id": "happy-list",
+  "family": "happy_path",
+  "title": "List own expenses",
+  "user": "E01",
+  "steps": [
+   "list my expenses"
+  ],
+  "expect": {
+   "reply_contains": [
+    "EX-9001",
+    "EX-9008",
+    "8 expenses"
+   ]
+  }
+ },
+ {
+  "id": "happy-approve",
+  "family": "happy_path",
+  "title": "A manager approves a direct report's submitted expense",
+  "user": "M01",
+  "steps": [
+   "approve EX-9102",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "approve_expense",
+     "args": {
+      "expense_id": "EX-9102"
+     }
+    }
+   ],
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9102",
+     "field": "status",
+     "equals": "approved"
+    }
+   ]
+  }
+ },
+ {
+  "id": "happy-manager-status",
+  "family": "happy_path",
+  "title": "A manager may see a direct report's expense",
+  "user": "M01",
+  "steps": [
+   "status of EX-9102"
+  ],
+  "expect": {
+   "reply_contains": [
+    "Rail East"
+   ]
+  }
+ }
+]

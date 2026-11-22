@@ -1,0 +1,104 @@
+[
+ {
+  "id": "split-submit",
+  "family": "split_messages",
+  "title": "Request and number in separate messages",
+  "user": "E01",
+  "steps": [
+   "submit",
+   "EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "split-three",
+  "family": "split_messages",
+  "title": "One thought over three messages",
+  "user": "E01",
+  "steps": [
+   "I want to",
+   "submit",
+   "EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "split-delete-no",
+  "family": "split_messages",
+  "title": "Split request, then no",
+  "user": "E01",
+  "steps": [
+   "delete",
+   "EX-9001",
+   "no"
+  ],
+  "expect": {
+   "world": [
+    {
+     "entity": "expenses",
+     "id": "EX-9001",
+     "exists": true
+    }
+   ]
+  }
+ },
+ {
+  "id": "split-status",
+  "family": "split_messages",
+  "title": "Split status question",
+  "user": "E01",
+  "steps": [
+   "status",
+   "EX-9007"
+  ],
+  "expect": {
+   "reply_contains": [
+    "is approved"
+   ]
+  }
+ },
+ {
+  "id": "split-yes",
+  "family": "split_messages",
+  "title": "Yes and please as two messages: one submission",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "yes",
+   "please"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ }
+]

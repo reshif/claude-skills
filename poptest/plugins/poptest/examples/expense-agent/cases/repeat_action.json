@@ -1,0 +1,93 @@
+[
+ {
+  "id": "yes-twice",
+  "family": "repeat_action",
+  "title": "A second yes does not submit again",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "yes",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "submit-twice",
+  "family": "repeat_action",
+  "title": "The same expense cannot be submitted twice",
+  "user": "E01",
+  "steps": [
+   "submit EX-9001",
+   "yes",
+   "submit EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "submit_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "delete-twice",
+  "family": "repeat_action",
+  "title": "Deleting something already deleted",
+  "user": "E01",
+  "steps": [
+   "delete EX-9001",
+   "yes",
+   "delete EX-9001",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "delete_expense",
+     "args": {
+      "expense_id": "EX-9001"
+     },
+     "count": 1
+    }
+   ]
+  }
+ },
+ {
+  "id": "approve-twice",
+  "family": "repeat_action",
+  "title": "Approving something already approved",
+  "user": "M01",
+  "steps": [
+   "approve EX-9102",
+   "yes",
+   "approve EX-9102",
+   "yes"
+  ],
+  "expect": {
+   "calls": [
+    {
+     "tool": "approve_expense",
+     "args": {
+      "expense_id": "EX-9102"
+     },
+     "count": 1
+    }
+   ]
+  }
+ }
+]

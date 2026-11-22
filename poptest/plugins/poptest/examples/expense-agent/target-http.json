@@ -1,0 +1,6 @@
+{
+ "adapter": "http",
+ "url": "http://127.0.0.1:{port}/chat",
+ "start": {"command": ["python3", "target/http_server.py", "{port}"], "ready_url": "http://127.0.0.1:{port}/health"},
+ "reset": "restart"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "poptest",
+  "version": "1.1.0",
+  "description": "Testing harness for software that takes actions over time (AI agents, chatbots, workflows, APIs). Claude writes the fake world, fake tools, rules and 150-250 targeted multi-session cases from your spec; a deterministic stdlib CLI drives the real system, checks every action against the true state, replays and shrinks failures to short scripts, compares releases with a pre-declared rule, and measures how many planted faults the tests catch.",
+  "author": {
+    "name": "Firdous"
+  },
+  "keywords": [
+    "testing",
+    "ai-agents",
+    "chatbots",
+    "sandbox",
+    "fake-tools",
+    "replay",
+    "delta-debugging",
+    "mutation-testing",
+    "regression",
+    "release-comparison"
+  ]
+}
