@@ -122,7 +122,7 @@ Credits: actions/run × runs/month (rates: billing page, not memory)
 
 ### A4.5 Gate 2: blueprint review
 Present all of these and build only after the user approves:
-- **For a Copilot-harness design: the harness ALM spike result** (build.md §5.0: PASS, PARTIAL or FAIL) and the release route it allows. No spike, no approval.
+- **For a Copilot-harness design: the harness ALM spike result** (build.md §5.0: PASS, PARTIAL or FAIL) and the release route it allows. No spike, no pipeline route: approve only route (c) with written risk acceptance (build.md §9.4).
 - Preview and Frontier risks, each with a fallback.
 - The credit formula. Look rates up; never quote them from memory.
 - The identity map.
@@ -272,7 +272,7 @@ Use the Customer Conversation harness (or standard topics), escalate to a live a
 7. Related features.
 8. Any catalog diff found while verifying.
 
-**For "teach me":** run the modules in this order: A2 → B1 → B3 → B2 → B4 → B5 → B6 → B9 → A3 → A4 → build A7. After each module, ask that module's questions from tests.md Part 1 (questions carry module tags), and continue only when the answers are correct.
+**For "teach me":** run the modules in this order: A2 → B1 → B3 → B2 → B4 → B5 → B6 → B9 → A3 → A4 → build A7. After each module, ask that module's check questions from tests.md Part 1 (questions carry module tags; this is the only permitted load of tests.md during user work: Part 1 only, never Parts 2–5), and continue only when the answers are correct.
 
 ## A9. Anti-patterns (refuse these "bandages")
 - Writing money or status through free-form MCP, or relying on an instruction sentence to do it.

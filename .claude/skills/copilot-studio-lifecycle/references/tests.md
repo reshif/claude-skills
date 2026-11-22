@@ -39,7 +39,7 @@ Never load this file while doing user work: it is the answer key.
 4. What must go in `.gitignore` before the first commit? → `**/.mcs/` and `**/.config/agent.config.json`. (build.md §0.5)
 5. Can the Approvals connection be owned by the CI app? → No. It's user-delegated, so a service account owns it. (build.md §9.2)
 6. How do you roll back a bad PROD release? → Fast disable, then roll forward with a higher version, then restore data from the pre-import backup. Never downgrade or uninstall. (build.md §9.6)
-7. The msagent eval exit code was 0. Did the gate pass? → Not necessarily. Parse `run.json` against the thresholds. (build.md §8.4)
+7. The msagent eval exit code was 0. Did the gate pass? → Not necessarily. Parse `run.json` against the thresholds. (build.md §8 item 4)
 8. Hooks as code? → No documented file format. Build them in the UI and record a UI handoff. (build.md §1, build.md §4.2)
 9. Can you mix `pac` and `msagent` in one workspace? → No. Use one toolchain per workspace. (build.md §0.4)
 10. When does the agent run the PROD deploy? → Never. A human triggers the protected stage. (build.md §9.5)

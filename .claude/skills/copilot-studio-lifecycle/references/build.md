@@ -262,6 +262,7 @@ pac copilot status --bot-id <botId> --environment <dev>
 ### 5.6 Migration from classic
 - **In-product upgrade** creates a copy (B1).
 - **As code:** `/migrate` (plugin 2 or 3) [CAT]. It creates the new agent **in the source agent's environment** and writes connection-reference rows there, so run it only on a classic agent in DEV; if the source is in TEST/PROD, bring it to DEV first (`ecosystem.md` "Composite skills").
+- Before `/migrate`, disable plugin 1 if enabled (SKILL R7) and start a new session; recommend removing it once the new agent passes evals.
 - Either way, keep the classic agent live until the new one passes the evaluation gate (§8).
 
 ---
@@ -373,7 +374,7 @@ pac copilot status --bot-id <botId> --environment <dev>
    - Test users ready.
    - Agent shared to the right security group.
    - Teams app approved.
-   - Agent republished.
+   - Agent republished (needs the SKILL R5 yes naming agent and environment; PROD is run by a human).
 
 ### 9.4 Release route (decided at Gate 2 and recorded)
 - **(a) Solution route.** For the standard harness, and for the Copilot harness if the spike passed: run §9.1–9.3 through the pipeline.

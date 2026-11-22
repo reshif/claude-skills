@@ -17,7 +17,7 @@ This skill replaces **copilot-studio-trainer** and **copilot-builder**. It runs 
 | `references/catalog.md` | B1–B9 + Part C (known gaps): harnesses, features, workflows, hooks, Dataverse, identity, ALM tracks, limits and errors, channels, writing rules. **Dated and source-tagged** |
 | `references/build.md` | §0–§10: build rules, toolchains, setup and preflight, layouts, Blueprint→Build Plan, harness spike, build loops, static checks, failure playbook, evaluation gate, release, operations |
 | `references/ecosystem.md` | Microsoft and community plugins: what each does, hooks they run, install, conflicts, composite skills, **which one to call for each task** |
-| `references/tests.md` | **For maintainers testing this skill only.** Never load it while doing user work |
+| `references/tests.md` | **For maintainers testing this skill only.** Never load it while doing user work, except Part 1 for "teach me" check questions (`design.md` A8) |
 
 **Snapshot: 2026-11-22**, just after Ignite 2026.
 
@@ -46,7 +46,7 @@ Rule numbers in this file are written **SKILL R1–R12**. Rules in `build.md` §
    - TEST and PROD are reached only through `build.md` §9. **Two exceptions:** (a) the Stage 3 spike imports a throwaway agent into a TEST or spike environment (`build.md` §5.0) with its own yes, its own solution name, and deletion afterwards; (b) the msagent route to TEST (`build.md` §9.4 b) with written sign-off.
    - **The agent never runs a PROD step.** For any route it prepares the commands or pipeline run; a human runs them.
 5. **R5 Deploying is not publishing.** Push, Apply, `msagent agent deploy` and plugin push skills change the cloud draft; publishing makes it live. **Ask before every publish, in every environment, naming the agent and environment.** Gate 2 approval is not publish approval. Iterate on the draft (`run-eval`, `msagent test ask`, test pane) instead of publishing.
-6. **R6 Destructive calls need their own yes, every time.** `delete-agent`, Dataverse `delete_record` / `delete_table` / `delete_skill`, `pac copilot quarantine`, any `--force` or overwrite flag, and Power Automate "copy between environments". Commit and pull first. Never in TEST or PROD.
+6. **R6 Destructive calls need their own yes, every time.** `delete-agent`, Dataverse `delete_record` / `delete_table` / `delete_skill`, `pac copilot quarantine`, any `--force` or overwrite flag, and Power Automate "copy between environments". Commit and pull first. Never in TEST or PROD, except (a) deleting Stage 3 spike artifacts (`build.md` §5.0), each with its own yes, and (b) rollback steps in `build.md` §9.6, which a human runs in PROD.
 7. **R7 Sync discipline.** Commit before every pull. **One sync engine per agent folder** (pac, msagent or VS Code/LSP) and **one Copilot Studio authoring plugin enabled per user profile** (`ecosystem.md` §3). Keep `.mcs/` and `.config/agent.config.json` out of Git.
 8. **R8 No secrets** in files, settings or chat.
 9. **R9 Never claim** a push, import, publish or test result you haven't seen output for.
@@ -63,7 +63,7 @@ Rule numbers in this file are written **SKILL R1–R12**. Rules in `build.md` §
 | Understand a feature | **Explain** | `design.md` A8 format, facts from `catalog.md` |
 | Plan a solution | **Design** | Stages 1–3 (run Stage 0 first for a Copilot-harness design, because the spike needs tools and auth). Output: Blueprint |
 | Build or change an agent | **Build** | Gate 2 first, then Stages 0, 3 (Copilot harness) and 4. For a small change, a one-paragraph Blueprint will do |
-| Move a classic agent to the Copilot harness | **Migrate** | `build.md` §5.6 + `ecosystem.md` "Composite skills" (`/migrate` writes to the **source** environment). Then Stages 3–5 |
+| Move a classic agent to the Copilot harness | **Migrate** | `build.md` §5.6 + `ecosystem.md` "Composite skills" (`/migrate` writes to the **source** environment). Before `/migrate`, disable plugin 1 if enabled (R7) and start a new session; recommend removing it once the new agent passes evals. Then Stages 3–5 |
 | Check a design or build | **Review** | `design.md` A5 + A9; findings ranked by severity, each with a fix |
 | Fix something broken | **Debug** | Symptom → cause → fix → prevention, using `catalog.md` B7, `build.md` §7; delegate per `ecosystem.md` §4 "Debug" |
 | Ship it | **Release** | Stages 5–6 |
@@ -80,7 +80,7 @@ Rule numbers in this file are written **SKILL R1–R12**. Rules in `build.md` §
 | 2 | **Design** | `design.md` A2–A7, `catalog.md` | Plugin 1 Advisor sub-agent (patterns, schema lookups); its output is input, never a decision | Blueprint drafted (A4.3 templates + ALM fields) |
 | 3 | **Spike (Copilot harness only) + Gate 2 (all harnesses)** | `build.md` §5.0, `design.md` A4.5 | `mcs-assistant:create-agent` / `add-skill` / `push-agent`, or msagent equivalents, **after** the composite-skill guard | Spike PASS / PARTIAL / FAIL recorded and spike artifacts deleted → **Gate 2:** Blueprint approved with release route |
 | 4 | **Build in DEV** | `build.md` §0–§1, §3–§7 | Agent files → the harness's authoring plugin; Dataverse → Dataverse plugin; flows → designer (Power Automate plugin for debugging) | `build.md` §6 checks clean, **plus** `copilot-studio:validate` on the standard harness; pushed to DEV; Build Report |
-| 5 | **Test** | `build.md` §8, `design.md` A4.3 *Evaluation* | Standard: plugin 1 Test sub-agent (`create-eval-set`, `run-eval`, `analyze-evals`; chat tools need a published agent). Copilot harness on pac: UI evaluation import or Evaluate Agent (`build.md` §8.4); msagent: `msagent agent eval run` | Thresholds met; blocking cases pass; **non-maker test in the target channel** passed (needs an approved DEV publish) |
+| 5 | **Test** | `build.md` §8, `design.md` A4.3 *Evaluation* | Standard: plugin 1 Test sub-agent (`create-eval-set`, `run-eval`, `analyze-evals`; chat tools need a published agent). Copilot harness on pac: UI evaluation import or Evaluate Agent (`build.md` §8 item 4); msagent: `msagent agent eval run` | Thresholds met; blocking cases pass; **non-maker test in the target channel** passed (needs an approved DEV publish) |
 | 6 | **Release** | `build.md` §9 | `pac solution` (ours). Publish only on approval: `copilot-studio:manage-agent publish`, `mcs-assistant:publish-agent`, `msagent-assistant:publish-agent` (also pulls and deploys) | TEST sign-off, then PROD sign-off; human runs PROD; release record (`build.md` §9.7) for the route used |
 | 7 | **Operate** | `build.md` §10, `catalog.md` B2.12 | — | Re-evaluation logged after any model, schema or connector change; catalog refreshed within 60 days |
 
@@ -122,7 +122,7 @@ Rule numbers in this file are written **SKILL R1–R12**. Rules in `build.md` §
 | Blueprint | End of Stage 2/3 | Docs artifact; chat is fine for a small change |
 | Build Plan | Start of Stage 4 | `BUILD-PLAN.md` in the agent repo (`build.md` §4) |
 | UI handoff log | Whenever UI work is needed | `ui-state.md` in the agent repo |
-| Build Report | End of Stage 4/5 | Docs artifact or `reports/<date>.md` (`build.md` §8.6), including **plugin names and commits used** |
+| Build Report | End of Stage 4/5 | Docs artifact or `reports/<date>.md` (`build.md` §8 item 6), including **plugin names and commits used** |
 | Release record | Each promotion | `build.md` §9.7 |
 
 ---

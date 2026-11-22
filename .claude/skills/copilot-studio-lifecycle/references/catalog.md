@@ -361,7 +361,7 @@ All of these outlast the synchronous window, so use A6.1. When a flow containing
 
 | Error | Cause → fix |
 |---|---|
-| `FlowActionTimedOut` | Over 100 s → make it faster, use Express mode, go async, or use A6.1 |
+| `FlowActionTimedOut` | Over 100 s → make it faster, use Express mode, go async only where the channel supports it (Teams; not M365 Copilot or telephony, B8), or use A6.1 with an out-of-band notice |
 | `FlowActionBadRequest` | Inputs or outputs changed after attaching, or an unsupported type → Refresh the tool and fix the types |
 | `BindingKeyNotFoundError` | Inputs added, removed or renamed → remove and re-add the tool |
 | `FlowActionException` | Error inside the flow → check run history |

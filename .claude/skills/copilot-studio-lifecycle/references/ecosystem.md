@@ -69,7 +69,7 @@ Enable **one** Copilot Studio authoring plugin (1, 2 or 3) at a time (§3).
 
 ## 4. Task routing
 
-Apply SKILL §3.1 (print target, list effects, get a yes, commit) **before** any row that can change the cloud. Verify with `build.md` §6 afterwards.
+Apply SKILL.md §3 rule 1 (print target, list effects, get a yes, commit) **before** any row that can change the cloud. Verify with `build.md` §6 afterwards.
 
 ### Composite skills (one call, several effects)
 
