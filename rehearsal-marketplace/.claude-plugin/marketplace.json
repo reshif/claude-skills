@@ -1,0 +1,12 @@
+{
+  "name": "rehearsal-marketplace",
+  "owner": { "name": "Firdous" },
+  "plugins": [
+    {
+      "name": "rehearsal",
+      "source": "./plugins/rehearsal",
+      "description": "Pre-mortem rehearsal stage for a software factory: grounded critics, outcome report, human gate, tests, calibration.",
+      "version": "0.1.0"
+    }
+  ]
+}

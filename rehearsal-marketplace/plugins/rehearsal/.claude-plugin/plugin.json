@@ -1,0 +1,7 @@
+{
+  "name": "rehearsal",
+  "version": "0.1.0",
+  "description": "Rehearsal stage for a software factory: grounded critics attack each variant of a request before it is built, an analyst writes an evidence-backed outcome report, a human gate picks, unhappy paths become acceptance tests, and calibration scores the critics against reality.",
+  "author": { "name": "Firdous" },
+  "keywords": ["pre-mortem", "rehearsal", "software-factory", "threat-modeling", "acceptance-tests", "calibration"]
+}
